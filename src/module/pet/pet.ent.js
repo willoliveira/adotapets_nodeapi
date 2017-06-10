@@ -20,7 +20,55 @@ const GENRE = [
 ]
 
 var PetsSchema = new Schema({
-	about: String
+	name: {
+		type: String,
+		Required: "Pet's name is required"
+	},
+	about: {
+		type: String,
+		Required: "Pet's about is required"
+	},
+	kind: {
+		type: String,
+		enum: KIND,
+		Required: "Pet's kind is required"
+	},
+	ageYears: {
+		type: Number,
+		Required: "Pet's age years is required"
+	},
+	ageMonths: {
+		type: Number,
+		Required: "Pet's age months is required"
+	},
+	breed: {
+		type: String,
+		Required: "Pet's breed is required"
+	},
+	genre: {
+		type: String,
+		enum: GENRE,
+		Required: "Pet's genre is required"
+	},
+	pictures: {
+		type: [
+			{
+				position: Number,
+				pictureUrl: String
+			}
+		]
+	},
+	size: {
+		type: String,
+		enum: SIZE,
+		Required: "Pet's size is required"
+	},
+	userId: {
+		type: String,
+		Required: "Pet's userId is required"
+	}
+}, {
+	collection: "pets"
 });
 
-module.exports = mongoose.model('Pet	', PetsSchema);
+module.exports = mongoose.model('Pet', PetsSchema);

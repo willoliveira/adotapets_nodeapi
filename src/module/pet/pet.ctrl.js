@@ -1,38 +1,20 @@
+var BaseController = require("../common/BaseController");
 var Pet = require("./pet.ent");
 
-class PetsController {
+class PetsController extends BaseController{
 
 	constructor(router) {
-		router.route('/pet').get(this.get);
-		router.route('/pet').post(this.post);
+		super(router, Pet);
 
-		router.route('/pet/:id').get(this.get);
+		this.bind('/pet')
+			.get(this.get.bind(this))
+			.post(this.post.bind(this));
+
+		this.bind('/pet/:id')
+			.get(this.get.bind(this))
+			.put(this.put.bind(this));
 	}
 
-	post(req, res) {
-		var newPet = new Pet(req.body);
-		newPet.save((err, task) => {
-			if (err) res.send(err);
-			res.json(task);
-		});
-	}
-
-	get(req, res) {
-		var request;
-		if (req.params.id) {
-			request = Pet.findById.bind(Pet, req.params.id);
-		}
-		else {
-			request = Pet.find.bind(Pet, {});
-		}
-
-		request((err, pet) => {
-			if (err) res.send(err);
-			res.json(pet);
-		});
-	}
 }
 
-module.exports = function (router) {
-    return new PetsController(router);
-};
+module.exports = (router) => new PetsController(router);
