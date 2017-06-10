@@ -33,7 +33,7 @@ class BaseController {
 	 * @param {*} res 
 	 */
 	put(req, res) {
-		this.entity.findOneAndUpdate(req.params.id, req.body, { new:true }, (err, entity) => {
+		this.entity.findOneAndUpdate(req.params.id, req.body, { new: true }, (err, entity) => {
 			if (err) res.send(err);
 			res.json(entity);
 		});
