@@ -20,54 +20,7 @@ const GENRE = [
 ]
 
 var PetsSchema = new Schema({
-	about: {
-		type: String,
-		Required: 'Kindly enter the name of the task'
-	},
-	ageMonths: {
-		type: String,
-		Required: 'Kindly enter the name of the task'
-	},
-	kind: {
-		type: [{
-			type: String,
-			enum: KIND
-		}]
-	},
-	ageYears: {
-		type: String,
-		Required: 'Kindly enter the name of the task'
-	},
-	breed: {
-		type: String,
-		Required: 'Kindly enter the name of the task'
-	},
-	genre: {
-		type: [{
-			type: String,
-			enum: GENRE
-		}],
-		Required: 'Kindly enter the name of the task'
-	},
-	name: {
-		type: String,
-		Required: 'Kindly enter the name of the task'
-	},
-	pictures: {
-		type: String,
-		Required: 'Kindly enter the name of the task'
-	},
-	size: {
-		type: [{
-			type: String,
-			enum: SIZE
-		}],
-		Required: 'Kindly enter the name of the task'
-	},
-	userId: {
-		type: String,
-		Required: 'Kindly enter the name of the task'
-	}
+	about: String
 });
 
-module.exports = mongoose.model('Pets', PetsSchema);
+module.exports = mongoose.model('Pet	', PetsSchema);

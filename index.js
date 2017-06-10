@@ -7,11 +7,11 @@ var db;
 db = MongoDB.connect(connectionString);
 
 db.on('error', (error) => {
-  throw error
+	throw error
 });
 
 db.on('disconnected', () => {
-  logger.warn('Database connection closed')
+	console.log('Database connection closed')
 });
 
 db.on('connected', () => {

@@ -3,36 +3,33 @@ var Pet = require("./pet.ent");
 class PetsController {
 
 	constructor(router) {
+		router.route('/pet').get(this.get);
+		router.route('/pet').post(this.post);
 
-		router.route('/pet').get(this.getPet);
-		router.route('/pet').post(this.postPet);
-
-		router.route('/pet/:id').get(this.getPet);
+		router.route('/pet/:id').get(this.get);
 	}
 
-	postPet(req, res) {
-		console.log("post")
+	post(req, res) {
 		var newPet = new Pet(req.body);
-		newPet.save(function(err, task) {
+		newPet.save((err, task) => {
 			if (err) res.send(err);
 			res.json(task);
 		});
 	}
 
-	getPet(req, res) {
-		// var request;
-		// if (req.params.id) request = Pet.findById.bind(this, req.params.taskId);
-		// request = Pet.find.bind(this, {});
+	get(req, res) {
+		var request;
+		if (req.params.id) {
+			request = Pet.findById.bind(Pet, req.params.id);
+		}
+		else {
+			request = Pet.find.bind(Pet, {});
+		}
 
-		// request((err, pet) => {
-		// 	if (err) res.send(err);
-		// 	res.json(task);
-		// });
-
-		Pet.find.bind(this, {}, (err, pet) => {
+		request((err, pet) => {
 			if (err) res.send(err);
-			res.json(task);
-		})
+			res.json(pet);
+		});
 	}
 }
 

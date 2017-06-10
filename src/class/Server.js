@@ -20,34 +20,33 @@ module.exports.run = () => {
 		'preflightContinue': false
 	}));
 
+	app.use(bodyParser.urlencoded({ extended: true }));
 	app.use(bodyParser.json());
 
-	app.use(function(req, res) {
-		res.status(404).send({url: req.originalUrl + ' not found'})
-	});
 
 	//TODO : pesquisar o que é
 	//   app.use(Helmet())
-	
+
 	//todo: pesquisar
 	//   busboy.extend(app, {
 	//     upload: true,
 	//     path: Config.upload.path + '/.tmp',
 	//     mimeTypeLimit: Config.upload.validMimeType
 	//   })
-	
+
 	//TODO: Pesquisar
 	//   if (Config.env !== 'production') app.use(morgan('dev'))
-	
-	//   Module.setup(router)
-	//TODO: perguntar
-	//   app.use('/api', router)
+
+	app.use('/api/v1', router);
 
 	//todo: pensando em jogar isso no index...
 	require('../module')(router);
-	
+
+	// app.use(function(req, res) {
+	// 	res.status(404).send({url: req.originalUrl + ' not found'})
+	// });
+
 	app.listen(Config.port);
-	
+
 	console.log(`Server listening on ${Config.port}`);
-	//   $logger.verbose(`Server listening on ${Config.port}`)
 }
