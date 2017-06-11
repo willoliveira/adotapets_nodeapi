@@ -1,5 +1,6 @@
 var BaseController = require("../common/BaseController");
 var Pet = require("./pet.ent");
+var User = require("../user/user.ent.js");
 
 class PetsController extends BaseController{
 
@@ -15,6 +16,29 @@ class PetsController extends BaseController{
 			.put(this.put.bind(this));
 	}
 
+	//TODO: deixar assim por enquanto
+	/**
+	 * Salva o pet e ja guarda referencia dele no array de pets do user
+	 * @override 
+	 * @param {*} req 
+	 * @param {*} res 
+	 */
+	post(req, res) {
+		var petData = req.body;
+		User.findOne({ "_id" : req.body._userId}, (err, user) => {
+			if(err) res.send(err);
+			if (user) {
+				var newPet = new this.entity(req.body);
+				newPet.save((err, pet) => {
+					user.pets.push(pet._id);
+					user.save(function(err) {
+						if(err) res.send(err);
+						res.json(pet);
+					});
+				})
+			}
+		});
+	}
 }
 
 module.exports = (router) => new PetsController(router);

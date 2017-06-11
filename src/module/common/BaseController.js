@@ -62,6 +62,13 @@ class BaseController {
 			res.json(entity);
 		});
 	}
+
+	
+	send(req, res, status, object) {
+        if (object && status.match(/400|401|403|404|500/)) res.status(status).json({message: object.message});
+        else if (object && status.match(/200|201/)) res.status(status).json(object);
+        else res.status(status).end();
+    }
 }
 
 module.exports = BaseController;

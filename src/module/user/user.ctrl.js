@@ -23,7 +23,7 @@ class UsersController extends BaseController {
 		this.entity.findOne({ "_id": req.params.id }).populate("pets").exec((err, user) => {
 			if (err) res.send(err);
 			res.json(user.pets);
-		})
+		});
 	}
 }
 
