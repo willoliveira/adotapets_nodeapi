@@ -1,5 +1,6 @@
 var BaseController = require("../common/BaseController");
 var User = require("./user.ent");
+var Pet = require("../pet/pet.ent");
 
 class UsersController extends BaseController {
 
@@ -13,9 +14,17 @@ class UsersController extends BaseController {
 		this.bind('/user/:id')
 			.get(this.get.bind(this))
 			.put(this.put.bind(this));
+
+		this.bind('/user/:id/pets')
+			.get(this.getPetsUser.bind(this));
+	}
+
+	getPetsUser(req, res) {
+		this.entity.findOne({ "_id": req.params.id }).populate("pets").exec((err, user) => {
+			if (err) res.send(err);
+			res.json(user.pets);
+		})
 	}
 }
 
-module.exports = function (router) {
-    return new UsersController(router);
-};
+module.exports = (router) => new UsersController(router);;

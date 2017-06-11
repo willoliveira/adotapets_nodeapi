@@ -1,0 +1,194 @@
+{
+	"variables": [],
+	"info": {
+		"name": "AdotaPets",
+		"_postman_id": "4c5015fe-f5cc-85f8-1a7f-fe7aeb4035d6",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Pet",
+			"description": "",
+			"item": [
+				{
+					"name": "Post pet",
+					"request": {
+						"url": "http://localhost:3000/api/v1/pet",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"about\": \"Eu sou um cat muito top\",\n\t\"ageMonths\": 10,\n\t\"ageYears\": 1,\n\t\"breed\": \"Siames\",\n\t\"genre\": \"male\",\n\t\"kind\": \"cat\",\n\t\"name\": \"Sheiki\",\n\t\"size\": \"small\",\n\t\"_userId\": \"5939ea939d4e2c1a341d60f0\",\n\t\"pictures\": [{\n\t\t\"position\" : 1,\n\t\t\"pictureUrl\": \"asdasd\"\n\t}]\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get pet by id",
+					"request": {
+						"url": "http://localhost:3000/api/v1/pet/{petId}",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"about\": \"Eu sou um dog muito top\",\n\t\"ageMonths\": 10,\n\t\"ageYears\": 1,\n\t\"breed\": \"Buldog\",\n\t\"genre\": \"male\",\n\t\"kind\": \"dog\",\n\t\"name\": \"Sheiki\",\n\t\"size\": \"small\",\n\t\"userId\": \"Id do dono\",\n\t\"pictures\": [{\n\t\t\"position\" : 1,\n\t\t\"pictureUrl\": \"asdasd\"\n\t}]\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get all pets",
+					"request": {
+						"url": "http://localhost:3000/api/v1/pet",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Put a pets",
+					"request": {
+						"url": "http://localhost:3000/api/v1/pet/{petId}",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"description\": \"Dono do animal\",\n\t\"email\": \"teste@teste.com\",\n\t\"name\": \"Will\",\n\t\"localtion\": {\n\t\t\"lat\": \"1\",\n\t\t\"lon\": \"1\"\n\t},\n\t\"picture\": \"http://...\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"description": "",
+			"item": [
+				{
+					"name": "Post user",
+					"request": {
+						"url": "http://localhost:3000/api/v1/user",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"description\": \"Dono do animal\",\n\t\"email\": \"teste@teste.com\",\n\t\"name\": \"Will\",\n\t\"localtion\": {\n\t\t\"lat\": \"1\",\n\t\t\"lon\": \"1\"\n\t},\n\t\"picture\": \"http://...\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get user by id",
+					"request": {
+						"url": "http://localhost:3000/api/v1/user/{userId}",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"description\": \"Dono do animal\",\n\t\"email\": \"teste@teste.com\",\n\t\"name\": \"Will\",\n\t\"localtion\": {\n\t\t\"lat\": \"1\",\n\t\t\"lon\": \"1\"\n\t},\n\t\"picture\": \"http://...\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get all users",
+					"request": {
+						"url": "http://localhost:3000/api/v1/user",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"description\": \"Dono do animal\",\n\t\"email\": \"teste@teste.com\",\n\t\"name\": \"Will\",\n\t\"localtion\": {\n\t\t\"lat\": \"1\",\n\t\t\"lon\": \"1\"\n\t},\n\t\"picture\": \"http://...\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Put a user by id",
+					"request": {
+						"url": "http://localhost:3000/api/v1/user/{userId}",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"description\": \"Dono do animal\",\n\t\"email\": \"teste@teste.com\",\n\t\"name\": \"Will\",\n\t\"localtion\": {\n\t\t\"lat\": \"1\",\n\t\t\"lon\": \"1\"\n\t},\n\t\"picture\": \"http://...\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get pets by userId",
+					"request": {
+						"url": "http://localhost:3000/api/v1/user/{userId}/pets",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"description\": \"Dono do animal\",\n\t\"email\": \"teste@teste.com\",\n\t\"name\": \"Will\",\n\t\"localtion\": {\n\t\t\"lat\": \"1\",\n\t\t\"lon\": \"1\"\n\t},\n\t\"picture\": \"http://...\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

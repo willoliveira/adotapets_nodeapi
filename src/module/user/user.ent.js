@@ -25,10 +25,11 @@ var UserSchema = new Schema({
 	picture: {
 		type: String,
 		Required: "User's picture months is required"
-	},
-	pets: {
-		type: [{ type: String }]
-	}
+	},	
+	pets: [{
+		type: Schema.Types.ObjectId,
+		ref: "Pet"
+	}]
 }, {
 	collection: "users"
 });

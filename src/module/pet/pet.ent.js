@@ -20,6 +20,11 @@ const GENRE = [
 ]
 
 var PetsSchema = new Schema({
+	_userId: {
+		type: Schema.Types.ObjectId,
+		ref: "User",
+		Required: "Pet's userId is required"
+	},
 	name: {
 		type: String,
 		Required: "Pet's name is required"
@@ -50,22 +55,14 @@ var PetsSchema = new Schema({
 		enum: GENRE,
 		Required: "Pet's genre is required"
 	},
-	pictures: {
-		type: [
-			{
-				position: Number,
-				pictureUrl: String
-			}
-		]
-	},
+	pictures: [{
+		position: Number,
+		pictureUrl: String
+	}],
 	size: {
 		type: String,
 		enum: SIZE,
 		Required: "Pet's size is required"
-	},
-	userId: {
-		type: String,
-		Required: "Pet's userId is required"
 	}
 }, {
 	collection: "pets"

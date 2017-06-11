@@ -48,11 +48,15 @@ class BaseController {
 	 * @param {*} res 
 	 */
 	get(req, res, query={}) {
-        query = Object.assign({}, { "_id": req.params.id }, query);
 		var request;
-		if (req.params.id) request = this.entity.findById.bind(this.entity, query);
-		else request = this.entity.find.bind(this.entity, query);
-
+		query = Object.assign({}, query);
+		if (req.params.id) {
+        	query = Object.assign(query, { "_id": req.params.id });
+			request = this.entity.findOne.bind(this.entity, query);
+		}
+		else {
+			request = this.entity.find.bind(this.entity, query);
+		}
 		request((err, entity) => {
 			if (err) res.send(err);
 			res.json(entity);
