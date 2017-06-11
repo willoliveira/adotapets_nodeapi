@@ -2,6 +2,7 @@ var MongoDB = require('./src/class/MongoDB')();
 var Config = require('./src/class/Config');
 var database = Config.database;
 var mongoose = require('mongoose');
+var User = require("./src/module/user/user.ent");
 var db;
 
 db = MongoDB.connect(database);
@@ -16,24 +17,10 @@ db.on('disconnected', () => {
 
 db.on('connected', () => {
 	console.log('Database connected')
-
-	var Schema = mongoose.Schema;
-
-	var usersSchema = new Schema({
-		description: String,
-		email: String,
-		name: String,
-		location: { lat: String, lon: String },
-		picture: String,
-		pets: {}		
-	});
-
-	var User = mongoose.model('Users', usersSchema);
-
-	User.findOne({ 'name': 'Willian' }, function (err, user) {
-		if (err) return handleError(err);
-
-		console.log('%s', user);
+	
+	User.findOne({ _id: "5939e9519d4e2c1a341d60ef" }, function (err, user) {
+		if (err) return handleError(err);		
+		console.log(user);
 	})
 
 	/*var usersResult = db.users.find(
