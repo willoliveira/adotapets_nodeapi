@@ -1,6 +1,5 @@
 class BaseController {
 
-
 	constructor(router, entity) {
         this.router = router;
         this.entity = entity;
@@ -32,8 +31,9 @@ class BaseController {
 	 * @param {*} req 
 	 * @param {*} res 
 	 */
-	put(req, res) {
-		this.entity.findOneAndUpdate(req.params.id, req.body, { new: true }, (err, entity) => {
+	put(req, res, query={}) {
+		var query = Object.assign({}, { "_id": req.params.id }, query);
+		this.entity.findOneAndUpdate(query, req.body, { new: true }, (err, entity) => {
 			if (err) res.send(err);
 			res.json(entity);
 		});
@@ -43,13 +43,15 @@ class BaseController {
 	 * GET
 	 * /api/vi/model
 	 * /api/vi/model/:id
+     * 
 	 * @param {*} req 
 	 * @param {*} res 
 	 */
-	get(req, res) {
+	get(req, res, query={}) {
+        query = Object.assign({}, { "_id": req.params.id }, query);
 		var request;
-		if (req.params.id) request = this.entity.findById.bind(this.entity, req.params.id);
-		else request = this.entity.find.bind(this.entity, {});
+		if (req.params.id) request = this.entity.findById.bind(this.entity, query);
+		else request = this.entity.find.bind(this.entity, query);
 
 		request((err, entity) => {
 			if (err) res.send(err);
