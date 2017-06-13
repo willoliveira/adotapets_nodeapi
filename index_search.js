@@ -20,44 +20,76 @@ db.on('connected', () => {
 	console.log('Database connected')
 	console.log('---------------------------------------------------')
 	
-	/*User.findOne({ _id: "5939e9519d4e2c1a341d60ef" }, function (err, user) {
-		if (err) return console.error(err.message);
-		console.log(user);
-		console.log('---------------------------------------------------')
-	})*/	
+	//em km
+	var distance = {
+		min: 0,
+		max: 16
+	};
 
-	//var point = { type : "Point", coordinates : [0, 0] };
-	//User.geoNear(point, { maxDistance : 5, spherical : true }, function(err, results, stats) {
-		//console.log(results);
-	//});
-
-	var distance = 1000 / 6371;
-
-	var query = User.findOne({
-		'loc': {
-			$near: [ "-49.066040", "-22.327203" ],
-			$maxDistance: distance
-		}
-	});
-
-	query.exec(function (err, city) {		
-		console.log(err);					
-		console.log(city);
-	});
-
-	/*var user = new User(); 
-	user.name = "Rafael Odassi"; 
-	user.email = "rafaelodassi@hotmail.com";
-	user.description = "Teste";
-	user.picture = "img";
-	user.loc = [ "-49.066040", "-22.327203" ]; 
-
-	user.save(function (err) {
+	User.find({
+		loc: {
+			'$near': {         		
+        		'$geometry': {
+					type: 'Point',
+					coordinates: [ "-48.990231", "-22.452031" ]
+				},
+				'$minDistance': distance.min,
+				'$maxDistance': distance.max * 1000				
+			}
+		} 
+    }, function(err, results) {
 		if (err)
-			res.send(err);	
-	});*/
+			console.log("ERRO: ", err.message);	
+
+		console.log("SUCESSO: ", results);
+	});
 
 	//User.update({ _id: "593d5f886cb55f268498a408" }, { $set: { loc: [ "-43.210503", "-22.951902" ] }}, function (err) {
 		//console.log(err);
 	//});
+
+	/*var user = new User(); 
+	user.name = "Rafael Odassi"; 
+	user.email = "rafaelodassi@hotmail.com";
+	user.description = "loc - Agudos";
+	user.picture = "path_img";
+	user.loc = {
+		type: "Point",
+		coordinates: ["-48.990231", "-22.452031"] //Agudos
+	}; 		
+
+	user.save(function (err) {
+		if (err)
+			console.log(err.message);	
+	});
+
+	var user = new User(); 
+	user.name = "Will"; 
+	user.email = "will@hotmail.com";
+	user.description = "loc - Lecom";
+	user.picture = "path_img";
+	user.loc = {
+		type: "Point",
+		coordinates: ["-49.066042", "-22.327201"] //Lecom
+	}; 	
+
+	user.save(function (err) {
+		if (err)
+			console.log(err.message);	
+	});
+
+	var user = new User(); 
+	user.name = "Lula"; 
+	user.email = "lula@hotmail.com";
+	user.description = "loc - Brasília";
+	user.picture = "path_img";
+	user.loc = {
+		type: "Point",
+		coordinates: ["-47.860738", "-15.798912"] //Brasilia
+	}; 		
+
+	user.save(function (err) {
+		if (err)
+			console.log(err.message);	
+	});*/
 });

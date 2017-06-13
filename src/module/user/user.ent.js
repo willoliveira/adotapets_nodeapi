@@ -16,8 +16,8 @@ var UserSchema = new Schema({
 		Required: "User's name is required"
 	},
 	loc: {
-		type: [Number],
-		index: '2d'
+		type: { type: String },
+		coordinates: [{ type: Number }]		
 	},
 	picture: {
 		type: String,
@@ -30,6 +30,6 @@ var UserSchema = new Schema({
 	collection: "users"
 });
 
-//UserSchema.index({ "loc": "2dsphere" });
+UserSchema.index({ "loc": "2dsphere" });
 
 module.exports = mongoose.model('User', UserSchema);
