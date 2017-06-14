@@ -16,8 +16,8 @@ class PetsController extends BaseController{
 			.put(this.put.bind(this));
 	}
 
-	//TODO: deixar assim por enquanto
 	/**
+	 * TODO: deixar assim por enquanto
 	 * Salva o pet e ja guarda referencia dele no array de pets do user
 	 * @override 
 	 * @param {*} req 
