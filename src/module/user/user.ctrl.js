@@ -21,7 +21,7 @@ class UsersController extends BaseController {
 			.get(this.getUserByEmail.bind(this));
 	}
 
-	getPetsUser(req, res) {		
+	getPetsUser(req, res) {
 		this.entity.findOne({ "_id": req.params.id }).populate("pets").exec((err, user) => {
 			if (err) res.send(err);
 			res.json(user.pets);

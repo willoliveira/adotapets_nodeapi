@@ -59,7 +59,11 @@ class BaseController {
 		}
 		request((err, entity) => {
 			if (err) res.send(err);
-			res.json(entity);
+			if (Array.isArray(entity) && entity.length === 1) {
+				res.json(entity[0]);
+			} else {
+				res.json(entity);
+			}
 		});
 	}
 
