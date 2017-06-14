@@ -21,74 +21,60 @@ db.on('connected', () => {
 	console.log('---------------------------------------------------')
 	
 	//em km
-	var distance = {
+	/*var distance = {
 		min: 0,
 		max: 16
 	};
 
-	User.find({
-		loc: {
-			'$near': {         		
-        		'$geometry': {
-					type: 'Point',
-					coordinates: [ "-48.990231", "-22.452031" ]
-				},
-				'$minDistance': distance.min,
-				'$maxDistance': distance.max * 1000				
-			}
-		} 
-    }, function(err, results) {
-		if (err)
-			console.log("ERRO: ", err.message);	
+	User
+		.find({
+			loc: {
+				'$near': {         		
+					'$geometry': {
+						type: 'Point',
+						coordinates: [ "-48.990231", "-22.452031" ]
+					},
+					'$minDistance': distance.min,
+					'$maxDistance': distance.max * 1000				
+				}
+			} 
+		})
+		.limit(1)
+		.exec(function (err, result) {
+			if (err) console.log(err.message);			
+			console.log(result);
+		});*/
+	
 
-		console.log("SUCESSO: ", results);
-	});
+	User
+		.aggregate([			
+			{
+				'$lookup':{
+					from: 'pets',
+					localField: '_id',
+					foreignField: 'userId',
+					as: 'user_pets'
+				}
+			}			
+		])
+		.exec(function (err, result) {
+			if (err) console.log(err.message);
+			console.log(result);
+		});
 
-	//User.update({ _id: "593d5f886cb55f268498a408" }, { $set: { loc: [ "-43.210503", "-22.951902" ] }}, function (err) {
-		//console.log(err);
-	//});
+	/*var pet = new Pet(); 
+	pet.userId = "594029a1261c1c28cccaa163";
+	pet.name = "Lulão";
+	pet.about = "Eu sou um pet topzera";
+	pet.ageMonths = 6;
+	pet.ageYears = 2;
+	pet.breed = "Vira lata";
+	pet.genre = "male";
+	pet.kind = "dog";	
+	pet.size = "large";	
+	pet.pictures = [];
 
-	/*var user = new User(); 
-	user.name = "Rafael Odassi"; 
-	user.email = "rafaelodassi@hotmail.com";
-	user.description = "loc - Agudos";
-	user.picture = "path_img";
-	user.loc = {
-		type: "Point",
-		coordinates: ["-48.990231", "-22.452031"] //Agudos
-	}; 		
-
-	user.save(function (err) {
-		if (err)
-			console.log(err.message);	
-	});
-
-	var user = new User(); 
-	user.name = "Will"; 
-	user.email = "will@hotmail.com";
-	user.description = "loc - Lecom";
-	user.picture = "path_img";
-	user.loc = {
-		type: "Point",
-		coordinates: ["-49.066042", "-22.327201"] //Lecom
-	}; 	
-
-	user.save(function (err) {
-		if (err)
-			console.log(err.message);	
-	});
-
-	var user = new User(); 
-	user.name = "Lula"; 
-	user.email = "lula@hotmail.com";
-	user.description = "loc - Brasília";
-	user.picture = "path_img";
-	user.loc = {
-		type: "Point",
-		coordinates: ["-47.860738", "-15.798912"] //Brasilia
-	}; 		
-
-	user.save(function (err) {
+	pet.save(function (err) {
 		if (err)
 			console.log(err.message);	
 	});*/
