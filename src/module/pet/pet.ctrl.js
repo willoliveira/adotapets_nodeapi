@@ -13,7 +13,26 @@ class PetsController extends BaseController{
 
 		this.bind('/pet/:id')
 			.get(this.get.bind(this))
-			.put(this.put.bind(this));
+			.put(this.put.bind(this))
+			.delete(this.delete.bind(this));
+	}
+
+	delete() {
+		this.entity.findOne({ "_id": req.params.id }, (err, pet) => {
+			User.findOne({ "_id": pet.userId }, (err, user) => {
+				user.pets.splice( user.pets.indexOf(pet._id), 1 )
+				User.findOneAndUpdate({ _id: user.id }, user, (err) => {
+					this.entity.remove({ "_id": pet._id }, (err, entity) => {
+						if (err) res.send(err);
+						res.json({ 
+							content: {
+								id: req.params.id
+							}
+						});
+					});
+				});
+			});
+		});
 	}
 
 	/**
@@ -25,17 +44,27 @@ class PetsController extends BaseController{
 	 */
 	post(req, res) {
 		var petData = req.body;
-		User.findOne({ "_id" : req.body._userId}, (err, user) => {
-			if(err) res.send(err);
+		User.findOne({ "_id" : req.body.userId}, (err, user) => {
+			if(err) {
+				res.send({
+					Error: new Error("Error find a user to vinculate in pet").message
+				});
+			}
 			if (user) {
 				var newPet = new this.entity(req.body);
 				newPet.save((err, pet) => {
 					user.pets.push(pet._id);
 					user.save(function(err) {
 						if(err) res.send(err);
-						res.json(pet);
+						res.json({
+							content: pet
+						});
 					});
 				})
+			} else {
+				res.send({
+					Error: new Error("User not exist!").message
+				});
 			}
 		});
 	}

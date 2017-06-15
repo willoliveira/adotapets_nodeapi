@@ -20,7 +20,9 @@ class BaseController {
 		var newEntity = new this.entity(req.body);
 		newEntity.save((err, entity) => {
 			if (err) res.send(err);
-			res.json(entity);
+			res.json({
+				content: entity
+			});
 		});
 	}
 
@@ -35,7 +37,9 @@ class BaseController {
 		var query = Object.assign({}, { "_id": req.params.id }, query);
 		this.entity.findOneAndUpdate(query, req.body, { new: true }, (err, entity) => {
 			if (err) res.send(err);
-			res.json(entity);
+			res.json({
+				content: entity
+			});
 		});
 	}
 
@@ -47,7 +51,7 @@ class BaseController {
 	 * @param {*} req 
 	 * @param {*} res 
 	 */
-	get(req, res, query={}) {
+	get(req, res, query) {
 		var request;
 		query = Object.assign({}, query);
 		if (req.params.id) {
@@ -58,15 +62,35 @@ class BaseController {
 			request = this.entity.find.bind(this.entity, query);
 		}
 		request((err, entity) => {
-			if (err) res.send(err);
-			if (Array.isArray(entity) && entity.length === 1) {
-				res.json(entity[0]);
+			if (err) {
+				res.send(err);
 			} else {
-				res.json(entity);
+				if (Array.isArray(entity)) {
+					if (!entity.length) {
+						entity = "";
+					}
+				}
+				res.json({
+					content: entity
+				});
 			}
 		});
 	}
 
+	delete(req, res, query) {
+		query = Object.assign({}, query);
+		if (req.params.id) { 
+        	query = Object.assign(query, { "_id": req.params.id });
+		}
+		this.entity.remove(query, function(err, entity) {
+			if (err) res.send(err);
+			res.json({ 
+				content: {
+					id: req.params.id
+				}
+			});
+		})
+	}
 	
 	send(req, res, status, object) {
         if (object && status.match(/400|401|403|404|500/)) res.status(status).json({message: object.message});

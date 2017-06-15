@@ -11,7 +11,7 @@ const SIZE = [
 const KIND = [
 	"dog", 
 	"cat",
-	"other"
+	"others"
 ]
 
 const GENRE = [

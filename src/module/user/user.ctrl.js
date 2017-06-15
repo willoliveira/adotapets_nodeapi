@@ -12,7 +12,8 @@ class UsersController extends BaseController {
 
 		this.bind('/user/:id')
 			.get(this.get.bind(this))
-			.put(this.put.bind(this));
+			.put(this.put.bind(this))
+			.delete(this.delete.bind(this)); //depois de deletar o pet, deletar a ref dele da tabela de usuario
 
 		this.bind('/user/:id/pets')
 			.get(this.getPetsUser.bind(this));
@@ -24,7 +25,9 @@ class UsersController extends BaseController {
 	getPetsUser(req, res) {
 		this.entity.findOne({ "_id": req.params.id }).populate("pets").exec((err, user) => {
 			if (err) res.send(err);
-			res.json(user.pets);
+			res.json({ 
+				content: user.pets
+			});
 		});
 	}
 
