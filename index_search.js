@@ -18,64 +18,42 @@ db.on('disconnected', () => {
 db.on('connected', () => {
 	console.log('---------------------------------------------------')
 	console.log('Database connected')
-	console.log('---------------------------------------------------')
-	
-	//em km
-	/*var distance = {
-		min: 0,
-		max: 16
-	};
-
+	console.log('---------------------------------------------------')		
+		
 	User
-		.find({
-			loc: {
-				'$near': {         		
-					'$geometry': {
-						type: 'Point',
-						coordinates: [ "-48.990231", "-22.452031" ]
-					},
-					'$minDistance': distance.min,
-					'$maxDistance': distance.max * 1000				
-				}
-			} 
-		})
-		.limit(1)
-		.exec(function (err, result) {
-			if (err) console.log(err.message);			
-			console.log(result);
-		});*/
-	
-
-	User
-		.aggregate([			
+		.aggregate(			
 			{
-				'$lookup':{
+				$geoNear: {
+					near: { type: "Point", coordinates: [-48.990231, -22.452031] },			
+					distanceField: "distance",
+					minDistance: 10 * 1000,
+					maxDistance: 100 * 1000,
+					limit: 1,
+					spherical: true
+				}
+			},
+			{
+				$lookup: {
 					from: 'pets',
 					localField: '_id',
-					foreignField: 'userId',
+					foreignField: '_userId',
 					as: 'user_pets'
 				}
+			},
+			{
+				$group: {
+					_id: '$_id',
+					user_pets: {
+						'$push': '$user_pets'
+					}
+				}
+			},
+			{
+				$unwind: '$user_pets'
 			}			
-		])
+		)		
 		.exec(function (err, result) {
-			if (err) console.log(err.message);
-			console.log(result);
-		});
-
-	/*var pet = new Pet(); 
-	pet.userId = "594029a1261c1c28cccaa163";
-	pet.name = "Lulão";
-	pet.about = "Eu sou um pet topzera";
-	pet.ageMonths = 6;
-	pet.ageYears = 2;
-	pet.breed = "Vira lata";
-	pet.genre = "male";
-	pet.kind = "dog";	
-	pet.size = "large";	
-	pet.pictures = [];
-
-	pet.save(function (err) {
-		if (err)
-			console.log(err.message);	
-	});*/
+			if (err) console.log(err.message);			
+			console.log(result[0]);
+		});	
 });
