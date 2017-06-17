@@ -17,24 +17,6 @@ class PetsController extends BaseController{
 			.delete(this.delete.bind(this));
 	}
 
-	delete() {
-		this.entity.findOne({ "_id": req.params.id }, (err, pet) => {
-			User.findOne({ "_id": pet.userId }, (err, user) => {
-				user.pets.splice( user.pets.indexOf(pet._id), 1 )
-				User.findOneAndUpdate({ _id: user.id }, user, (err) => {
-					this.entity.remove({ "_id": pet._id }, (err, entity) => {
-						if (err) res.send(err);
-						res.json({ 
-							content: {
-								id: req.params.id
-							}
-						});
-					});
-				});
-			});
-		});
-	}
-
 	/**
 	 * TODO: deixar assim por enquanto
 	 * Salva o pet e ja guarda referencia dele no array de pets do user
@@ -44,26 +26,27 @@ class PetsController extends BaseController{
 	 */
 	post(req, res) {
 		var petData = req.body;
-		User.findOne({ "_id" : req.body.userId}, (err, user) => {
+		User.findOne({ "_id" : req.body._userId}, (err, user) => {
 			if(err) {
 				res.send({
-					Error: new Error("Error find a user to vinculate in pet").message
+					message: new Error("Error find a user to vinculate in pet").message
 				});
 			}
 			if (user) {
 				var newPet = new this.entity(req.body);
 				newPet.save((err, pet) => {
-					user.pets.push(pet._id);
-					user.save(function(err) {
-						if(err) res.send(err);
-						res.json({
-							content: pet
+					if (err) {
+						res.status(500).send({
+							message: new Error("Error to save pet").message
 						});
+					}
+					res.status(201).json({
+						content: pet
 					});
 				})
 			} else {
-				res.send({
-					Error: new Error("User not exist!").message
+				res.status(412).send({
+					message: new Error("User not exist!").message
 				});
 			}
 		});
