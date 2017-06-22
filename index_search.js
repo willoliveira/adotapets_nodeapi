@@ -3,6 +3,7 @@ var Config = require('./src/class/Config');
 var database = Config.database;
 var mongoose = require('mongoose');
 var User = require("./src/module/user/user.ent");
+var Pet = require("./src/module/pet/pet.ent");
 var db;
 
 db = MongoDB.connect(database);
@@ -39,21 +40,48 @@ db.on('connected', () => {
 					foreignField: '_userId',
 					as: 'user_pets'
 				}
-			},
+			},			
 			{
-				$group: {
-					_id: '$_id',
+				$project: {
+					_id: '$_id',					
+					distance: '$distance',
 					user_pets: {
-						'$push': '$user_pets'
+						$filter: {
+							input: '$user_pets',
+							as: 'user_pet',
+							cond: {
+								//$and, $or, $not
+								$and: [
+									{ $eq: [ "$$user_pet.kind", 'dog' ] },
+									{ $eq: [ "$$user_pet.ageYears", 2 ] }
+								]
+							}							
+						}												
+					}
+				}
+			},	
+			{
+				$project: {
+					_id: '$_id',		
+					distance: '$distance',
+					user_pets: {						
+						$arrayElemAt: [ "$user_pets", 0 ]
 					}
 				}
 			},
 			{
-				$unwind: '$user_pets'
-			}			
+				$addFields: {
+					"user_pets.distance": '$distance'
+				}
+			},
+			{
+     			$replaceRoot: {
+					 newRoot: "$user_pets"
+				}
+   			}
 		)		
 		.exec(function (err, result) {
 			if (err) console.log(err.message);			
-			console.log(result[0]);
-		});	
+			console.log(result[0]);			
+		});		
 });
