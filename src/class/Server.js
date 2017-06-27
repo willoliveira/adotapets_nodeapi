@@ -15,11 +15,10 @@ var bodyParser = require('body-parser');
 module.exports.run = () => {
 	// TODO: Set in config
 	app.use(CORS({
-		'origin': '*',
-		'methods': 'GET,HEAD,PUT,PATCH,POST,DELETE',
-		'preflightContinue': false
+		'origin': ['*', "http://localhost:4000"],
+		'methods': 'GET,HEAD,PUT,PATCH,POST,DELETE'
 	}));
-
+	
 	app.use(bodyParser.urlencoded({ extended: true }));
 	app.use(bodyParser.json());
 

@@ -1,5 +1,6 @@
 var BaseController = require("../common/BaseController");
 var User = require("./user.ent");
+var Pet = require("../pet/pet.ent");
 
 class UsersController extends BaseController {
 
@@ -12,7 +13,8 @@ class UsersController extends BaseController {
 
 		this.bind('/user/:id')
 			.get(this.get.bind(this))
-			.put(this.put.bind(this));
+			.put(this.put.bind(this))
+			.delete(this.delete.bind(this)); //depois de deletar o pet, deletar a ref dele da tabela de usuario
 
 		this.bind('/user/:id/pets')
 			.get(this.getPetsUser.bind(this));
@@ -25,10 +27,20 @@ class UsersController extends BaseController {
 	}
 
 	getPetsUser(req, res) {
-		this.entity.findOne({ "_id": req.params.id }).populate("pets").exec((err, user) => {
+		Pet.find({
+			_userId: req.params.id
+		}, (err, pets) => {
 			if (err) res.send(err);
-			res.json(user.pets);
+			res.json({ 
+				content: pets
+			});
 		});
+		// this.entity.findOne({ "_id": req.params.id }).populate("pets").exec((err, user) => {
+		// 	if (err) res.send(err);
+		// 	res.json({ 
+		// 		content: user.pets
+		// 	});
+		// });
 	}
 
 	getUserByEmail(req, res) {

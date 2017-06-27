@@ -13,7 +13,8 @@ class PetsController extends BaseController{
 
 		this.bind('/pet/:id')
 			.get(this.get.bind(this))
-			.put(this.put.bind(this));
+			.put(this.put.bind(this))
+			.delete(this.delete.bind(this));
 	}
 
 	/**
@@ -26,16 +27,27 @@ class PetsController extends BaseController{
 	post(req, res) {
 		var petData = req.body;
 		User.findOne({ "_id" : req.body._userId}, (err, user) => {
-			if(err) res.send(err);
+			if(err) {
+				res.send({
+					message: new Error("Error find a user to vinculate in pet").message
+				});
+			}
 			if (user) {
 				var newPet = new this.entity(req.body);
 				newPet.save((err, pet) => {
-					user.pets.push(pet._id);
-					user.save(function(err) {
-						if(err) res.send(err);
-						res.json(pet);
+					if (err) {
+						res.status(500).send({
+							message: new Error("Error to save pet").message
+						});
+					}
+					res.status(201).json({
+						content: pet
 					});
 				})
+			} else {
+				res.status(412).send({
+					message: new Error("User not exist!").message
+				});
 			}
 		});
 	}
