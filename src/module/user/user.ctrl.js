@@ -23,7 +23,7 @@ class UsersController extends BaseController {
 			.get(this.getUserByEmail.bind(this));
 
 		this.bind('/getPetByLocUser')
-			.get(this.getPetByLocUser.bind(this));
+			.post(this.getPetByLocUser.bind(this));
 	}
 
 	getPetsUser(req, res) {
@@ -47,13 +47,18 @@ class UsersController extends BaseController {
 		this.get(req, res, { "email": req.params.email});
 	}
 
-	getPetByLocUser(req, res) {		
-		var locUser = [-48.990231, -22.452031], //longitude, latitude
-			distance = { min: 10, max: 100 }, //em km
-			filtersPet = [
-				{ $eq: [ "$$pet.size", 'large' ] },
-				{ $eq: [ "$$pet.ageYears", 2 ] }
-			];				
+	getPetByLocUser(req, res) {					
+		var filtersObj = req.body;
+
+		var locUser = [Number(filtersObj.longitude), Number(filtersObj.latitude)],
+			distance = { min: parseInt(filtersObj.minDistance), max: parseInt(filtersObj.maxDistance) },
+			filtersPet = [];												
+		
+		var filtersPetParsed = JSON.parse(filtersObj.filtersPet);		
+
+		for (var key in filtersPetParsed) { 			
+			filtersPet.push({ $eq: [ "$$pet." + key, filtersPetParsed[key] ] });
+		}		
 
 		this.entity
 			.aggregate(			
@@ -106,7 +111,7 @@ class UsersController extends BaseController {
 			.exec((err, user) => {
 				if (err) res.send(err);
 				res.json(user[0]);
-			});		
+			});
 	}
 }
 
