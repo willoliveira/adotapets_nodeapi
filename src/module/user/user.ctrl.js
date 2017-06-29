@@ -47,24 +47,21 @@ class UsersController extends BaseController {
 		this.get(req, res, { "email": req.params.email});
 	}
 
-	getPetByLocUser(req, res) {					
-		var filtersObj = req.body;
+	getPetByLocUser(req, res) {
+		var filtersObj = req.body,
+			locUser = [filtersObj.longitude, filtersObj.latitude],
+			distance = { min: filtersObj.minDistance, max: filtersObj.maxDistance },
+			filtersPet = [];			
 
-		var locUser = [Number(filtersObj.longitude), Number(filtersObj.latitude)],
-			distance = { min: parseInt(filtersObj.minDistance), max: parseInt(filtersObj.maxDistance) },
-			filtersPet = [];												
-		
-		var filtersPetParsed = JSON.parse(filtersObj.filtersPet);		
-
-		for (var key in filtersPetParsed) { 			
-			filtersPet.push({ $eq: [ "$$pet." + key, filtersPetParsed[key] ] });
-		}		
+		for (var key in filtersObj.filtersPet) {
+			filtersPet.push({ $eq: [ "$$pet." + key, filtersObj.filtersPet[key] ] });
+		}
 
 		this.entity
-			.aggregate(			
+			.aggregate(
 				{
 					$geoNear: {
-						near: { type: "Point", coordinates: locUser },			
+						near: { type: "Point", coordinates: locUser },
 						distanceField: "distance",
 						minDistance: distance.min * 1000,
 						maxDistance: distance.max * 1000,
@@ -79,11 +76,11 @@ class UsersController extends BaseController {
 						foreignField: '_userId',
 						as: 'pets'
 					}
-				},			
+				},
 				{
 					$project: {
-						_id: '$_id',					
-						name: '$name',					
+						_id: '$_id',
+						name: '$name',
 						distance: '$distance',
 						pets: {
 							$filter: {
@@ -92,27 +89,31 @@ class UsersController extends BaseController {
 								cond: {
 									//$and, $or, $not
 									$and: filtersPet
-								}							
-							}												
+								}
+							}
 						}
 					}
-				},	
+				},
 				{
 					$project: {
-						_id: '$_id',		
-						name: '$name',					
+						_id: '$_id',
+						name: '$name',
 						distance: '$distance',
-						pet: {						
-							$arrayElemAt: [ "$pets", 0 ]
+						pet: {
+							$cond: {
+								if: { $eq: [ { $size: "$pets"}, 0 ] },
+								then: "$pets",
+								else: { $arrayElemAt: [ "$pets", 0 ] }
+							}
 						}
 					}
 				}
-			)		
+			)
 			.exec((err, user) => {
 				if (err) res.send(err);
-				res.json(user[0]);
+				user.length ? res.json(user[0]) : res.json(user);
 			});
 	}
 }
 
-module.exports = (router) => new UsersController(router);;
+module.exports = (router) => new UsersController(router);
