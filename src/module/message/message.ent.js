@@ -8,9 +8,9 @@ var MessageSchema = new Schema({
 		required: true,
 	},
 	createDate: {
-		type: String,
+		type: Date,
 		required: true,
-		default: Date.now()
+		default: Date.now
 	},
 	_roomId: {
 		type: Schema.Types.ObjectId,
