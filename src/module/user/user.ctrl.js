@@ -21,6 +21,9 @@ class UsersController extends BaseController {
 
 		this.bind('/user/email/:email')
 			.get(this.getUserByEmail.bind(this));
+
+		this.bind('/getPetByLocUser')
+			.post(this.getPetByLocUser.bind(this));
 	}
 
 	getPetsUser(req, res) {
@@ -43,6 +46,74 @@ class UsersController extends BaseController {
 	getUserByEmail(req, res) {
 		this.get(req, res, { "email": req.params.email});
 	}
+
+	getPetByLocUser(req, res) {
+		var filtersObj = req.body,
+			locUser = [filtersObj.longitude, filtersObj.latitude],
+			distance = { min: filtersObj.minDistance, max: filtersObj.maxDistance },
+			filtersPet = [];			
+
+		for (var key in filtersObj.filtersPet) {
+			filtersPet.push({ $eq: [ "$$pet." + key, filtersObj.filtersPet[key] ] });
+		}
+
+		this.entity
+			.aggregate(
+				{
+					$geoNear: {
+						near: { type: "Point", coordinates: locUser },
+						distanceField: "distance",
+						minDistance: distance.min * 1000,
+						maxDistance: distance.max * 1000,
+						limit: 1,
+						spherical: true
+					}
+				},
+				{
+					$lookup: {
+						from: 'pets',
+						localField: '_id',
+						foreignField: '_userId',
+						as: 'pets'
+					}
+				},
+				{
+					$project: {
+						_id: '$_id',
+						name: '$name',
+						distance: '$distance',
+						pets: {
+							$filter: {
+								input: '$pets',
+								as: 'pet',
+								cond: {
+									//$and, $or, $not
+									$and: filtersPet
+								}
+							}
+						}
+					}
+				},
+				{
+					$project: {
+						_id: '$_id',
+						name: '$name',
+						distance: '$distance',
+						pet: {
+							$cond: {
+								if: { $eq: [ { $size: "$pets"}, 0 ] },
+								then: "$pets",
+								else: { $arrayElemAt: [ "$pets", 0 ] }
+							}
+						}
+					}
+				}
+			)
+			.exec((err, user) => {
+				if (err) res.send(err);
+				user.length ? res.json(user[0]) : res.json(user);
+			});
+	}
 }
 
-module.exports = (router) => new UsersController(router);;
+module.exports = (router) => new UsersController(router);
