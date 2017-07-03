@@ -23,37 +23,37 @@ var PetsSchema = new Schema({
 	_userId: {
 		type: Schema.Types.ObjectId,
 		ref: "User",
-		Required: "Pet's userId is required"
+		required: true
 	},
 	name: {
 		type: String,
-		Required: "Pet's name is required"
+		required: true
 	},
 	about: {
 		type: String,
-		Required: "Pet's about is required"
+		required: true
 	},
 	kind: {
 		type: String,
 		enum: KIND,
-		Required: "Pet's kind is required"
+		required: true
 	},
 	ageYears: {
 		type: Number,
-		Required: "Pet's age years is required"
+		required: true
 	},
 	ageMonths: {
 		type: Number,
-		Required: "Pet's age months is required"
+		required: true
 	},
 	breed: {
 		type: String,
-		Required: "Pet's breed is required"
+		required: true
 	},
 	genre: {
 		type: String,
 		enum: GENRE,
-		Required: "Pet's genre is required"
+		required: true
 	},
 	pictures: [{
 		position: Number,
@@ -62,7 +62,7 @@ var PetsSchema = new Schema({
 	size: {
 		type: String,
 		enum: SIZE,
-		Required: "Pet's size is required"
+		required: true
 	}
 }, {
 	collection: "pets"

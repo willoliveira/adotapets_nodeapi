@@ -1,13 +1,13 @@
 class BaseController {
 
 	constructor(router, entity) {
-        this.router = router;
-        this.entity = entity;
+		this.router = router;
+		this.entity = entity;
 	}
 
-    bind (path) {
-        return this.router.route(path);
-    }
+	bind (path) {
+		return this.router.route(path);
+	}
 
 	/**
 	 * POST
@@ -51,7 +51,7 @@ class BaseController {
 	 * GET
 	 * /api/vi/model
 	 * /api/vi/model/:id
-     * 
+	 * 
 	 * @param {*} req 
 	 * @param {*} res 
 	 */
@@ -59,7 +59,7 @@ class BaseController {
 		var request;
 		query = Object.assign({}, query);
 		if (req.params.id) {
-        	query = Object.assign(query, { "_id": req.params.id });
+			query = Object.assign(query, { "_id": req.params.id });
 			request = this.entity.findOne.bind(this.entity, query);
 		}
 		else {
@@ -81,28 +81,35 @@ class BaseController {
 		});
 	}
 
+	/**
+	 * DELETE
+	 * /api/vi/model/:id
+	 * 
+	 * @param {*} req 
+	 * @param {*} res 
+	 */
 	delete(req, res, query) {
 		query = Object.assign({}, query);
 		if (req.params.id) { 
-        	query = Object.assign(query, { "_id": req.params.id });
+			query = Object.assign(query, { "_id": req.params.id });
 		}
 		this.entity.remove(query, function(err, entity) {
 			if (err) {
 				res.status(500).send(err);
 			}
-			res.status(200).json({ 
+			res.status(200).json({
 				content: {
 					_id: req.params.id
 				}
 			});
-		})
+		});
 	}
 	
 	send(req, res, status, object) {
-        if (object && status.match(/400|401|403|404|500/)) res.status(status).json({message: object.message});
-        else if (object && status.match(/200|201/)) res.status(status).json(object);
-        else res.status(status).end();
-    }
+		if (object && status.match(/400|401|403|404|500/)) res.status(status).json({message: object.message});
+		else if (object && status.match(/200|201/)) res.status(status).json(object);
+		else res.status(status).end();
+	}
 }
 
 module.exports = BaseController;

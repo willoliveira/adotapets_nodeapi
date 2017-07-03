@@ -19,7 +19,7 @@ class PetsController extends BaseController{
 
 	/**
 	 * TODO: deixar assim por enquanto
-	 * Salva o pet e ja guarda referencia dele no array de pets do user
+	 * Antes de salvar o Pet, verifica se o user existe
 	 * @override 
 	 * @param {*} req 
 	 * @param {*} res 
