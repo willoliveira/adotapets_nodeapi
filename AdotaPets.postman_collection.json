@@ -8,13 +8,53 @@
 	},
 	"item": [
 		{
-			"name": "Pet",
+			"name": "Message",
 			"description": "",
 			"item": [
 				{
-					"name": "Post pet",
+					"name": "Get message by id",
 					"request": {
-						"url": "http://localhost:3000/api/v1/pet",
+						"url": "http://localhost:3000/api/v1/message/595aaeda8a17561a9c26e046",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"message\": \"Teste top\",\n    \"_roomId\": \"59519025cdb68811b0c2289c\",\n    \"createDate\": \"1499115196027\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get all message",
+					"request": {
+						"url": "http://localhost:3000/api/v1/message",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"message\": \"Teste top\",\n    \"_roomId\": \"59519025cdb68811b0c2289c\",\n    \"createDate\": \"1499115196027\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Post a message",
+					"request": {
+						"url": "http://localhost:3000/api/v1/message",
 						"method": "POST",
 						"header": [
 							{
@@ -25,12 +65,38 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"about\": \"Eu sou um cat muito top\",\n\t\"ageMonths\": 10,\n\t\"ageYears\": 1,\n\t\"breed\": \"Siames\",\n\t\"genre\": \"male\",\n\t\"kind\": \"cat\",\n\t\"name\": \"Sheiki\",\n\t\"size\": \"small\",\n\t\"_userId\": \"5939ea939d4e2c1a341d60f0\",\n\t\"pictures\": [{\n\t\t\"position\" : 1,\n\t\t\"pictureUrl\": \"asdasd\"\n\t}]\n}"
+							"raw": "{\n    \"message\": \"Teste top\",\n    \"_roomId\": \"59519025cdb68811b0c2289c\",\n    \"createDate\": \"1499115196027\"\n}"
 						},
 						"description": ""
 					},
 					"response": []
 				},
+				{
+					"name": "Put a message",
+					"request": {
+						"url": "http://localhost:3000/api/v1/message/595aaeda8a17561a9c26e046",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"_id\": \"595aaeda8a17561a9c26e046\",\n    \"message\": \"Teste top 1\",\n    \"_roomId\": \"59519025cdb68811b0c2289c\",\n    \"createDate\": \"1499115196027\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Pet",
+			"description": "",
+			"item": [
 				{
 					"name": "Get pet by id",
 					"request": {
@@ -63,6 +129,26 @@
 					"response": []
 				},
 				{
+					"name": "Post pet",
+					"request": {
+						"url": "http://localhost:3000/api/v1/pet",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"about\": \"Eu sou um cat muito top\",\n\t\"ageMonths\": 10,\n\t\"ageYears\": 1,\n\t\"breed\": \"Siames\",\n\t\"genre\": \"male\",\n\t\"kind\": \"cat\",\n\t\"name\": \"Sheiki\",\n\t\"size\": \"small\",\n\t\"_userId\": \"5939ea939d4e2c1a341d60f0\",\n\t\"pictures\": [{\n\t\t\"position\" : 1,\n\t\t\"pictureUrl\": \"asdasd\"\n\t}]\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
 					"name": "Put a pets",
 					"request": {
 						"url": "http://localhost:3000/api/v1/pet/{petId}",
@@ -85,13 +171,53 @@
 			]
 		},
 		{
-			"name": "User",
+			"name": "Room",
 			"description": "",
 			"item": [
 				{
-					"name": "Post user",
+					"name": "Get room by id",
 					"request": {
-						"url": "http://localhost:3000/api/v1/user",
+						"url": "http://localhost:3000/api/v1/room/59519025cdb68811b0c2289c",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"participants\": [\"594029a1261c1c28cccaa162\", \"594029a1261c1c28cccaa161\"]\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get all rooms",
+					"request": {
+						"url": "http://localhost:3000/api/v1/room",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"participants\": [\"594029a1261c1c28cccaa162\", \"594029a1261c1c28cccaa161\"]\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Post rooms",
+					"request": {
+						"url": "http://localhost:3000/api/v1/room",
 						"method": "POST",
 						"header": [
 							{
@@ -102,12 +228,78 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"description\": \"Dono do animal\",\n\t\"email\": \"teste@teste.com\",\n\t\"name\": \"Will\",\n\t\"localtion\": {\n\t\t\"lat\": \"1\",\n\t\t\"lon\": \"1\"\n\t},\n\t\"picture\": \"http://...\"\n}"
+							"raw": "{\n\t\"participants\": [\"594029a1261c1c28cccaa162\", \"594029a1261c1c28cccaa161\"]\n}"
 						},
 						"description": ""
 					},
 					"response": []
 				},
+				{
+					"name": "Put a room",
+					"request": {
+						"url": "http://localhost:3000/api/v1/room/59519025cdb68811b0c2289c",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"participants\": [\"594029a1261c1c28cccaa162\", \"594029a1261c1c28cccaa161\"]\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get room by user id",
+					"request": {
+						"url": "http://localhost:3000/api/v1/room/user/5942da98444a293d906fd736",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"participants\": [\"594029a1261c1c28cccaa162\", \"594029a1261c1c28cccaa161\"]\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get room by user id and participant",
+					"request": {
+						"url": "http://localhost:3000/api/v1/room/user/5942da98444a293d906fd736/participant/594029a1261c1c28cccaa162",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"participants\": [\"594029a1261c1c28cccaa162\", \"594029a1261c1c28cccaa161\"]\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"description": "",
+			"item": [
 				{
 					"name": "Get user by id",
 					"request": {
@@ -149,6 +341,26 @@
 					"response": []
 				},
 				{
+					"name": "Post user",
+					"request": {
+						"url": "http://localhost:3000/api/v1/user",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"description\": \"Dono do animal\",\n\t\"email\": \"teste@teste.com\",\n\t\"name\": \"Will\",\n\t\"localtion\": {\n\t\t\"lat\": \"1\",\n\t\t\"lon\": \"1\"\n\t},\n\t\"picture\": \"http://...\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
 					"name": "Put a user by id",
 					"request": {
 						"url": "http://localhost:3000/api/v1/user/{userId}",
@@ -162,7 +374,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"description\": \"Dono do animal\",\n\t\"email\": \"teste@teste.com\",\n\t\"name\": \"Will\",\n\t\"localtion\": {\n\t\t\"lat\": \"1\",\n\t\t\"lon\": \"1\"\n\t},\n\t\"picture\": \"http://...\"\n}"
+							"raw": "{\n  \"description\": \"Dono do animal\",\n  \"email\": \"teste@teste.com\",\n  \"name\": \"Will\",\n  \"localtion\": {\n    \"lat\": \"1\",\n    \"lon\": \"1\"\n  },\n  \"picture\": \"http://...\"\n}"
 						},
 						"description": ""
 					},
