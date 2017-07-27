@@ -31,8 +31,6 @@ class PetsController extends BaseController{
 	post(req, res) {
 		var petData = req.body;
 
-		console.log(petData);
-
 		User.findOne({ "_id" : req.body._userId}, (err, user) => {
 			if(err) {
 				res.send({

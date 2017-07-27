@@ -14,7 +14,8 @@ var RoomSchema = new Schema({
 		validate: [
 			val => val.length > 1, 
 			"No minimo são dois participantes"
-		]
+		],
+		ref: "User"
 	},
 	type: {
 		type: String,
