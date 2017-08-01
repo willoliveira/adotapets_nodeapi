@@ -15,15 +15,7 @@ class UploadFile {
                 this.upload(fields, files, 0, resolve, reject);
             }.bind(this));
         }.bind(this));
-    }
-    
-    createFile() {
-
-    }
-
-    createDir() {
-        
-    }
+	}
 
     upload (fields, files, index, resolve, reject) {
         var objKeys = Object.keys(files),

@@ -67,7 +67,7 @@ class PetsController extends BaseController{
 		var uploadFile = new UploadFile();
 
 		uploadFile.start(req).then(data => {
-			res.status(200).json({ status: 200, message: data.msg, arrImages: data.arrImages });
+			res.json({ status: 200, message: data.msg, arrImages: data.arrImages });
 		})
 		.catch(err => {
 			res.status(500).send({ status: 500, message: err });
