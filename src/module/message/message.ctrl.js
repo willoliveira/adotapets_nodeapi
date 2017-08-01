@@ -11,19 +11,16 @@ class MessageController extends BaseController {
 			.get(this.get.bind(this))
 			.post(this.post.bind(this));
 
-		this.bind('/message/date/:date')
-			.get(this.getByDate.bind(this));
-
 		this.bind('/message/:id')
 			.get(this.get.bind(this))
 			.put(this.put.bind(this))
 			.delete(this.delete.bind(this));
 	}
 
-	getByDate(req, res) {
+	getMessagesByDate(req, res) {
 		this.entity
-			.find({ createDate: { $lt: req.params.date } })
-			.limit(10)
+			.find({createDate: { $lt: req.query.date } })
+			.limit(req.query.size)
 			.sort("-createDate")
 			.exec((err, message) => {
 				if (err) {
@@ -36,7 +33,7 @@ class MessageController extends BaseController {
 						}
 					});
 				} else {
-					res.status(204).send({ content : "" });
+					res.status(204).send();
 				}
 			});
 	}
