@@ -53,14 +53,13 @@ class RoomController extends BaseController {
 		}
 
 		messageEntity.exec((err, messages) => {
+			messageEntity = null;
 			if (err) {
 				res.status(500).send(err);
 			}
 			if (messages && messages.length) {
 				res.status(200).send({ 
-					content : {
-						"messages": messages
-					}
+					content : messages
 				});
 			} else {
 				res.status(204).send({ content : "" });
@@ -76,6 +75,7 @@ class RoomController extends BaseController {
 		};
 		this.entity
 			.find(querry)
+			.populate("participants")
 			.exec((err, rooms) => {
 				if (err) {
 					res.status(500).send(err);
@@ -88,11 +88,7 @@ class RoomController extends BaseController {
 
 	getByUserAndParticipant(req, res) {
 		var arrayParticipants = [req.params.userId, req.params.participantId];
-		var querry = {
-			participants:  { 
-				$all: arrayParticipants
-			}
-		};
+		var querry = { "admin": req.params.userId };
 		this.entity
 			.find(querry)
 			.exec((err, room) => {
@@ -117,7 +113,10 @@ class RoomController extends BaseController {
 								//verifica se todos os usuarios que voltou da consulta, realmente são os passados na criacao da sala
 								usersInRoom = verifyUsersRoom(arrayParticipants, users);
 								if (usersInRoom === arrayParticipants.length) {
-									req.body = { "participants": arrayParticipants };
+									req.body = {
+										"participants": arrayParticipants,
+										"admin": req.params.userId
+									};
 									this.post.call(this, req, res);
 								} else {
 									res.status(412).send({

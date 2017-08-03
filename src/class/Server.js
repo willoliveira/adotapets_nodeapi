@@ -15,7 +15,7 @@ var bodyParser = require('body-parser');
 module.exports.run = () => {
 	// TODO: Set in config
 	app.use(CORS({
-		'origin': ['*', "http://localhost:4000"],
+		'origin': ['*', "http://localhost:8100"],
 		'methods': 'GET,HEAD,PUT,PATCH,POST,DELETE'
 	}));
 	

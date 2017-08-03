@@ -22,15 +22,13 @@ class MessageController extends BaseController {
 			.find({createDate: { $lt: req.query.date } })
 			.limit(req.query.size)
 			.sort("-createDate")
-			.exec((err, message) => {
+			.exec((err, messages) => {
 				if (err) {
 					res.status(500).send(err);
 				}
-				if (message && message.length) {
+				if (messages && messages.length) {
 					res.status(200).send({ 
-						content : {
-							messages: message 
-						}
+						content : messages
 					});
 				} else {
 					res.status(204).send();

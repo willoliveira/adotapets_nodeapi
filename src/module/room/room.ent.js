@@ -8,13 +8,17 @@ const GROUP_TYPE = [
 ]
 
 var RoomSchema = new Schema({
-	participants: {
-		type: [ Schema.Types.ObjectId ],
+	participants: [{
+		type: Schema.Types.ObjectId,
 		required: true,
 		validate: [
-			val => val.length > 1, 
+			val => val.length > 0, 
 			"No minimo são dois participantes"
 		],
+		ref: "User"
+	}],
+	admin: {
+		type: Schema.Types.ObjectId,
 		ref: "User"
 	},
 	type: {
