@@ -27,13 +27,6 @@ class RoomController extends BaseController {
 			.get(this.getByUserAndParticipant.bind(this));
 	}
 
-	get(req, res) {
-		if (req.query) {
-			this.getRoomMessagesByDate(req, res);
-		}
-		super.get(req, res);
-	}
-
 	/**
 	 * req.query { size, date} pagination
 	 * @param {*} req 
@@ -45,7 +38,10 @@ class RoomController extends BaseController {
 		let dateEqualRemove = req.query.hasOwnProperty("dateEqualRemove") ? "$lt" : "$lte";
 		
 		messageEntity = Message
-			.find({ "createDate": { [`${dateEqualRemove}`]: date } })
+			.find({ 
+				"_roomId": req.params.roomId,
+				"createDate": { [`${dateEqualRemove}`]: date } 
+			})
 			.sort("-createDate");
 
 		if (req.query.size) {
