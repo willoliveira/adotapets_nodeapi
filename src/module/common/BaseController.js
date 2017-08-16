@@ -17,7 +17,11 @@ class BaseController {
 	 * @param {*} res 
 	 */
 	post(req, res) {
-		var newEntity = new this.entity(req.body);
+		var newEntity = new this.entity(req.body);				
+
+		if (req.body.loc)
+			newEntity.loc = JSON.parse(req.body.loc);
+
 		newEntity.save((err, entity) => {
 			if (err) {
 				res.status(500).send(err);
