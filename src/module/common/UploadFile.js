@@ -1,12 +1,12 @@
 var fs = require('fs');
-var formidable = require('formidable');
+//var formidable = require('formidable');
 
 class UploadFile {
 	constructor() {
         this.pathImages = [];
     }
 	
-    start (req) {
+    /*start (req) {
         return new Promise(function (resolve, reject){
             const form = new formidable.IncomingForm();
 
@@ -15,7 +15,7 @@ class UploadFile {
                 this.upload(fields, files, 0, resolve, reject);
             }.bind(this));
         }.bind(this));
-	}
+	}*/
 
     upload (fields, files, index, resolve, reject) {
         var objKeys = Object.keys(files),
